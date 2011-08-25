@@ -1,0 +1,174 @@
+@font-face {
+	font-family: 'Digi';
+	src: url('ds-digi.ttf');
+}
+
+@font-face {
+	font-family: 'Actor';
+	src: url('Actor-Regular.ttf');
+}
+
+
+*{
+	margin:0;
+	padding:0;
+}
+
+body{
+	/*background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#EEE), to(#DDD));*/
+	font-family: Arial, Helvetica, sans-serif;
+	min-width: 500px;
+	height: 300px;
+}
+
+
+#searchBox {
+	float: left;
+	width: 250px;
+	height: 100%;
+	font-size: 0.8em;
+}
+
+#playerBox {
+font-family: Digi;
+	float: right;
+	width: 219px;
+	border-left: 1px dotted silver;
+	height: 100%;
+	padding: 15px;
+}
+
+#time_counter {
+	font-size: 1.6em;
+	text-align: center;
+	color: #3CB1FF;
+	float: left;
+	background-color: #2D2D2D;
+	width: 69px;
+	padding: 5px 0;
+
+	border-radius: 5px;
+	text-shadow: 0 0 5px #3CB1FF;
+}
+
+#player_controls {
+	float: left;
+	overflow: hidden;
+}
+
+#player_controls #stop {
+	width: 27px;
+	float: left;
+	cursor: pointer;
+	margin: 5px 5px;
+}
+
+#player_controls #stop:active {
+	width: 25px;
+	padding: 1px;
+}
+
+#player_controls #playPause {
+	width: 37px;
+	float: left;
+
+	cursor: pointer;
+}
+
+#player_controls #playPause:active {
+	width: 35px;
+	padding: 1px;
+}
+
+#player_controls #volume {
+	width: 49px;
+	float: left;
+	cursor: pointer;
+	margin: 10px 5px;
+}
+
+#player_controls #volumeInfo {
+	float: left;
+	margin-top: 12px;
+	font-size: 0.8em;
+}
+
+#searchForm {
+	border-radius: 10px;
+	border: 1px solid gray;
+	margin: 10px;
+	overflow: hidden;
+	height: 18px;
+}
+
+#searchInput {
+	float: left;
+	margin: 1px 0 0 8px;
+	border: 0;
+	width: 200px;
+	outline: none;
+}
+
+#searchForm img {
+	width: 14px;
+	margin-top: 2px;
+}
+
+img#searchImg{	
+	cursor: pointer;
+}
+
+img#loader{
+	display: none;
+}
+
+
+#resultList li {
+	font-family: 'Actor', sans-serif;
+	color: black;
+	padding: 4px 0 4px 12px;
+	cursor: pointer;
+	font-size: 0.95em;
+	
+}
+
+
+#resultList li span {
+	color: gray;
+	font-size: 0.8em;
+	margin-left: 6px;
+}
+
+#resultList li:hover {
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#0FA6F7), to(#0F7FEC));
+	color: white;
+	border-radius: 0 10px 10px 0;
+}
+
+#resultList li:hover span {
+	color: silver;
+}
+
+#resultList li:active {
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#0F7FEC), to(#0FA6F7));
+}
+
+#dropzone {
+	font-family: 'Actor', sans-serif;
+	height: 65px;
+	border: 2px dashed gray;
+	position: absolute;
+	width: 232px;
+	top: 6px;
+	right: 6px;
+	background-color: white;
+	opacity: 0.8;
+	text-align: center;
+	font-size: 1.3em;
+}
+
+#dropzone span {
+	float: left;
+	width: 100%;
+	margin-top: 14px;
+}

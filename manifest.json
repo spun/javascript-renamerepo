@@ -1,0 +1,22 @@
+{
+	"name": "Noname music",
+	"version": "0.0.1",
+	"description": "Escucha música mientras navegas",
+	"icons": {
+		"16": "img/16.png",
+		"48": "img/48.png",
+		"128": "img/128.png"
+	},
+	"browser_action": {
+		"default_title": "Noname music",
+		"default_icon": "img/16.png",
+		"default_popup": "popup.html"
+	},
+	"background_page": "background.html",
+	
+	"permissions": [
+		"https://*/*",
+		"http://*/*",
+		"tabs"
+	]
+}

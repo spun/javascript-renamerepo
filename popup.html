@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="js/jquery.js"></script> 
+		<script src="js/popup_script.js"></script>
+		<script src="js/goear_lib.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+	</head>
+	<body>
+		<div id="searchBox">			
+			<form id="searchForm">
+				<input id="searchInput" type="text" placeholder="Search..." />
+				<img id="searchImg" title="Search" alt="Search" src="img/search.gif" />
+				<img id="loader" title="Loading" alt="Loading" src="img/loader.gif" />				
+			</form>
+			<div>
+				<ul id="resultList">
+				</ul>			
+			</div>
+			<p id="infoAction"></p>
+		</div>
+		<div id="playerBox">
+
+			<div style="display: none" id="dropzone"><span>Drop here to play</span></div>
+
+			<div id="audio_player">
+				<div id="time_counter">--:--</div>
+				<div id="player_controls">
+					<img id="stop" src="img/stop_icon.png" />
+					<img id="playPause" src="img/play_icon.png" />
+					<input id="volume" type="range" min="0" max="100" value="5" /><span id="volumeInfo">100</span>
+				</div>
+			</div>
+		</div>
+		<script>
+			/*
+			var dragZone = document.getElementById('resultList');
+			var dropZone = document.getElementById('dropzone');
+			
+			
+			dragZone.addEventListener('dragstart', function(event) {
+				console.log("start");
+				dropZone.style.display = 'block';
+				return true;
+			}, true);
+			
+			dragZone.addEventListener('dragend', function(event) {
+					  if (event.target.className) { // img case
+						event.target.style.border = "4px solid #888";
+					  } else { // text case
+						event.target.parentNode.style.border = "4px solid #888";
+					  }
+					  dropZone.style.backgroundColor = 'orange';
+					  return true;
+					}, true);
+			*/
+		
+    </script>
+	</body>
+</html>
