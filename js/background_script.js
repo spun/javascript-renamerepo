@@ -8,9 +8,9 @@ audioElement.load();
 
 audioElement.addEventListener('ended', function() {
 	playListSong++;
-	if(!(playSong < playList.length))
+	if(!(playListSong < playList.length))
 		playListSong = 0;
-	changeSong(playList[playListSong]);
+	getUrl(playList[playListSong]);
 });
 
 
@@ -28,15 +28,15 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 			audioElement.pause();
 			console.log("Cambiando a: "+request.url);
 			getUrl(request.url);
-			
+
 			sendResponse({farewell: "goodbye"});
 		}
 		else if (request.action == "addToPlaylist")
 		{
 			playList.push(request.url);
-			if(!playList.length)
+			if(playList.length==1)
 				getUrl(request.url);
-			
+
 			sendResponse({farewell: "goodbye"});
 
 		}
@@ -64,7 +64,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 			audioElement.src=request.url;
 			audioElement.play();
 			sendResponse({farewell: "goodbye"});
-		} 
+		}
 		else
 			sendResponse({}); // snub them.
 });
@@ -81,8 +81,9 @@ function getSelectedText(callback)
 
 function changeSong(enlace) {
 	audioElement.pause();
-				audioElement.src = enlace;
-				audioElement.play();
+	audioElement.src = enlace;
+	audioElement.play();
+
 	return false;
 }
 

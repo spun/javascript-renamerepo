@@ -118,7 +118,7 @@ function setTextInput(text) {
 
 function preview_sendToPlay(id) {
 
-	chrome.extension.sendRequest({action: "change", url: id}, function(response) {
+	chrome.extension.sendRequest({action: "addToPlaylist", url: id}, function(response) {
 			$("#playPause").attr("src","img/pause_icon.png");
 			console.log(response.farewell);
 	});
@@ -140,7 +140,6 @@ function recoverLastSearch() {
 	}
 }
 
-var last ;
 function showSearchResults(searchResults)
 {
 	var numResults = searchResults.results.length;
@@ -150,18 +149,17 @@ function showSearchResults(searchResults)
 		$('#resultList').html("");
 
 		$.each(searchResults.results, function(i) {
-			
-			last = $(this);
+
 			$('<span>', {
 				text: '('+$(this)[0].author+')'
 			}).appendTo(
-				$('<li>').attr('draggable', true).  
-					attr('onclick', 'preview_sendToPlay("'+$(this)[0].id+'")').  
+				$('<li>').attr('draggable', true).
+					attr('onclick', 'preview_sendToPlay("'+$(this)[0].id+'")').
 					html($(this)[0].title).appendTo('#resultList')
 			);
 		});
 
-  
+
 		localStorage.setItem('lastSearch', JSON.stringify(searchResults));
 	}
 }
