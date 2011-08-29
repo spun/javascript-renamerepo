@@ -10,7 +10,7 @@ audioElement.addEventListener('ended', function() {
 	playListSong++;
 	if(!(playListSong < playList.length))
 		playListSong = 0;
-	getUrl(playList[playListSong]);
+	getUrl(playList[playListSong].id);
 });
 
 
@@ -35,7 +35,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		{
 			playList.push(request.url);
 			if(playList.length==1)
-				getUrl(request.url);
+				getUrl(request.url.id);
 
 			sendResponse({farewell: "goodbye"});
 

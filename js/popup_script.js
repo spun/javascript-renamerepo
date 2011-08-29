@@ -101,7 +101,7 @@ $(document).ready(function() {
 
 
 
-	recoverLastSearch();
+	recoverLastSession();
 
 });
 
@@ -116,9 +116,25 @@ function setTextInput(text) {
 }
 
 
-function preview_sendToPlay(id) {
+function preview_sendToPlay(title, author, id) {
 
-	chrome.extension.sendRequest({action: "addToPlaylist", url: id}, function(response) {
+	// Añadimos la cancion a la lista de reproduccion
+	$('<span>', {
+		text: '('+author+')'
+	}).appendTo(
+		$('<li>').attr('draggable', true).
+			attr('onclick', 'sendRequestToBackground("change","'+id+'")').
+			html(title).appendTo('#playList ul').css("display", "none").fadeIn()
+	);
+
+
+	var song = new Object();
+	song.title = title;
+	song.author = author;
+	song.id = id;
+
+	// La mandamos al array de canciones en background
+	chrome.extension.sendRequest({action: "addToPlaylist", url: song}, function(response) {
 			$("#playPause").attr("src","img/pause_icon.png");
 			console.log(response.farewell);
 	});
@@ -131,13 +147,31 @@ function sendRequestToBackground(act, data) {
 	});
 }
 
-function recoverLastSearch() {
+var test;
+function recoverLastSession() {
 
+
+	// Recuperamos la ultima busqueda
 	if(localStorage.getItem('lastSearch'))
 	{
 		showSearchResults(JSON.parse(localStorage.getItem('lastSearch')));
 
 	}
+	
+	// Recuperamos la lista de reproduccion actual	
+	$.each(bg_page.playList, function(i) {
+
+	$('<span>', {
+		text: '('+$(this)[0].author+')'
+		}).appendTo(
+			$('<li>').attr('draggable', true).
+				attr('onclick', 'sendRequestToBackground("change","'+$(this)[0].id+'")').
+				html($(this)[0].title).appendTo('#playList ul')
+		);
+	});
+	
+
+	
 }
 
 function showSearchResults(searchResults)
@@ -154,7 +188,7 @@ function showSearchResults(searchResults)
 				text: '('+$(this)[0].author+')'
 			}).appendTo(
 				$('<li>').attr('draggable', true).
-					attr('onclick', 'preview_sendToPlay("'+$(this)[0].id+'")').
+					attr('onclick', 'preview_sendToPlay("'+$(this)[0].title+'","'+$(this)[0].author+'","'+$(this)[0].id+'")').
 					html($(this)[0].title).appendTo('#resultList')
 			);
 		});
