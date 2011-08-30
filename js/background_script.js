@@ -31,6 +31,17 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 
 			sendResponse({farewell: "goodbye"});
 		}
+		else if(request.action == "changeTo") {
+			audioElement.pause();
+			console.log("Cambiando a la cancion: "+request.url);
+			
+			playListSong = request.url;
+			if(!(playListSong < playList.length))
+				playListSong = 0;
+			getUrl(playList[playListSong].id);			
+
+			sendResponse({farewell: "goodbye"});
+		}
 		else if (request.action == "addToPlaylist")
 		{
 			playList.push(request.url);

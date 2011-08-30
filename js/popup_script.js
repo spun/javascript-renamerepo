@@ -2,6 +2,11 @@ var bg_page = chrome.extension.getBackgroundPage();
 
 
 $(document).ready(function() {
+	
+	
+	
+	
+	
 
 	$('#searchForm').submit(function() {
 		searchText($('#searchInput').val());
@@ -102,6 +107,14 @@ $(document).ready(function() {
 
 
 	recoverLastSession();
+	
+	
+	bg_page.audioElement.addEventListener('play', function() {
+		$('#playList li').removeClass('playing');
+		$('#playList li').eq(bg_page.playListSong).addClass('playing');		
+	});
+	
+	
 
 });
 
@@ -123,7 +136,7 @@ function preview_sendToPlay(title, author, id) {
 		text: '('+author+')'
 	}).appendTo(
 		$('<li>').attr('draggable', true).
-			attr('onclick', 'sendRequestToBackground("change","'+id+'")').
+			attr('onclick', 'sendRequestToBackground("changeTo",'+$('#playList li').size()+')').
 			html(title).appendTo('#playList ul').css("display", "none").fadeIn()
 	);
 
@@ -165,13 +178,14 @@ function recoverLastSession() {
 		text: '('+$(this)[0].author+')'
 		}).appendTo(
 			$('<li>').attr('draggable', true).
-				attr('onclick', 'sendRequestToBackground("change","'+$(this)[0].id+'")').
+				attr('onclick', 'sendRequestToBackground("changeTo",'+i+')').
 				html($(this)[0].title).appendTo('#playList ul')
 		);
 	});
 	
-
-	
+	// Marcamos la cancion que se esta reproduciendo
+	$('#playList li').removeClass('playing');
+	$('#playList li').eq(bg_page.playListSong).addClass('playing');	
 }
 
 function showSearchResults(searchResults)

@@ -188,6 +188,11 @@ img#loader{
 	margin-left: 6px;
 }
 
+#playList li.playing {
+	color: #009BC0;
+	border-color: #00AFD8;
+}
+
 #playList li:hover {
 	color: white;
 	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#D0AFFF), to(#BF95FF));
