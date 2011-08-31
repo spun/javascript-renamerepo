@@ -9,6 +9,9 @@
 		<script src="js/jquery.ui.widget.min.js"></script>
 		<script src="js/jquery.ui.mouse.min.js"></script>
 		<script src="js/jquery.ui.sortable.min.js"></script>
+		<script src="js/jquery.ui.draggable.min.js"></script>
+		<script src="js/jquery.ui.droppable.min.js"></script>
+		<script src="js/jquery.effects.core.min.js"></script>
 	</head>
 	<body>
 		<div id="searchBox">
@@ -18,6 +21,7 @@
 				<img id="loader" title="Loading" alt="Loading" src="img/loader.gif" />
 			</form>
 			<div>
+				<div id="dropzoneSearch"><img src="img/trash.png" alt="Delete" /></div>
 				<ul id="resultList">
 				</ul>
 			</div>
@@ -25,7 +29,7 @@
 		</div>
 		<div id="playerBox">
 
-			<div style="display: none" id="dropzone"><span>Drop here to play</span></div>
+
 
 			<div id="audio_player">
 				<div id="time_counter">--:--</div>
@@ -44,37 +48,69 @@
 		<script>
 		$(function() {
 
+			$("#dropzoneSearch").droppable({
+				over: function(event, ui) {
+					if(ui.draggable.index() != bg_page.playListSong)
+						$("#dropzoneSearch").stop(true, true).animate({ backgroundColor: "#E5FF7F" }, 500);
+					else
+						$("#dropzoneSearch").stop(true, true).animate({ backgroundColor: "#FF8383" }, 500);
 
-			$('#sortable').sortable();
-			$( "#sortable" ).disableSelection();
-
-			$( "#sortable" ).bind("sortupdate", function(event, ui) {
-
-				var newPlaylist = new Array();
-				var current = bg_page.playListSong;
-				$('#playList li').each(function(index) {
-
-					var song = new Object();
-					song.title = $(this).data('title');
-					song.author = $(this).data('author');
-					song.id = $(this).data('id');
-
-					if($(this).data('pos')==current)
-						bg_page.playListSong = index;
-
-					$(this).data('pos', index);
-
-					newPlaylist.push(song);
-
-				});
-
-				bg_page.playList = newPlaylist;
+					$("#dropzoneSearch img").stop(true, true).animate({ opacity: 0.9 }, 500);
+				},
+				out: function(event, ui) {
+					$("#dropzoneSearch").stop(true, true).animate({ backgroundColor: "white" }, 500);
+					$("#dropzoneSearch img").stop(true, true).animate({ opacity: 0.4 }, 500);
+				},
+				drop: function(event, ui) {
+					if(ui.draggable.index() != bg_page.playListSong)
+					{
+						ui.draggable.remove()
+					}
+				}
 			});
 
+
+			$("#sortable").sortable({
+				items: 'li',
+				opacity: 0.8,
+				activate: function(event, ui) {
+					if(ui.item.index() != bg_page.playListSong)
+					{
+						$("#dropzoneSearch").stop(true, true).fadeIn();
+					}
+
+
+				},
+				deactivate: function(event, ui) {
+					$("#dropzoneSearch").stop(true, true).css("background-color", "white");
+					$("#dropzoneSearch img").stop(true, true).css("opacity", "0.4" );
+					$("#dropzoneSearch").stop(true, true).fadeOut();
+				},
+				update: function(event, ui) {
+					var newPlaylist = new Array();
+					var current = bg_page.playListSong;
+					$('#playList li').each(function(index) {
+
+						var song = new Object();
+						song.title = $(this).data('title');
+						song.author = $(this).data('author');
+						song.id = $(this).data('id');
+
+						if($(this).data('pos')==current)
+							bg_page.playListSong = index;
+
+						$(this).data('pos', index);
+
+						newPlaylist.push(song);
+
+					});
+					bg_page.playList = newPlaylist;
+				}
+			});
+
+			$( "#sortable" ).disableSelection();
+
 		});
-
-
-
 
     </script>
 	</body>
