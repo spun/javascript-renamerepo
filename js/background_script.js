@@ -34,11 +34,11 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		else if(request.action == "changeTo") {
 			audioElement.pause();
 			console.log("Cambiando a la cancion: "+request.url);
-			
+
 			playListSong = request.url;
 			if(!(playListSong < playList.length))
 				playListSong = 0;
-			getUrl(playList[playListSong].id);			
+			getUrl(playList[playListSong].id);
 
 			sendResponse({farewell: "goodbye"});
 		}

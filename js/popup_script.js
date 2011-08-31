@@ -2,11 +2,7 @@ var bg_page = chrome.extension.getBackgroundPage();
 
 
 $(document).ready(function() {
-	
-	
-	
-	
-	
+
 
 	$('#searchForm').submit(function() {
 		searchText($('#searchInput').val());
@@ -107,14 +103,15 @@ $(document).ready(function() {
 
 
 	recoverLastSession();
-	
-	
+
+
 	bg_page.audioElement.addEventListener('play', function() {
+		$("#playPause").attr("src","img/pause_icon.png");
 		$('#playList li').removeClass('playing');
-		$('#playList li').eq(bg_page.playListSong).addClass('playing');		
+		$('#playList li').eq(bg_page.playListSong).addClass('playing');
 	});
-	
-	
+
+
 
 });
 
@@ -136,8 +133,16 @@ function preview_sendToPlay(title, author, id) {
 		text: '('+author+')'
 	}).appendTo(
 		$('<li>').attr('draggable', true).
-			attr('onclick', 'sendRequestToBackground("changeTo",'+$('#playList li').size()+')').
-			html(title).appendTo('#playList ul').css("display", "none").fadeIn()
+			click(function(){
+				sendRequestToBackground("changeTo", $(this).index())
+			}).
+			html(title).
+			data({
+				pos: $('#playList li').size(),
+				title: title,
+				author: author,
+				id: id,
+			}).appendTo('#playList ul').css("display", "none").fadeIn()
 	);
 
 
@@ -148,7 +153,6 @@ function preview_sendToPlay(title, author, id) {
 
 	// La mandamos al array de canciones en background
 	chrome.extension.sendRequest({action: "addToPlaylist", url: song}, function(response) {
-			$("#playPause").attr("src","img/pause_icon.png");
 			console.log(response.farewell);
 	});
 }
@@ -170,22 +174,30 @@ function recoverLastSession() {
 		showSearchResults(JSON.parse(localStorage.getItem('lastSearch')));
 
 	}
-	
-	// Recuperamos la lista de reproduccion actual	
+
+	// Recuperamos la lista de reproduccion actual
 	$.each(bg_page.playList, function(i) {
 
 	$('<span>', {
 		text: '('+$(this)[0].author+')'
 		}).appendTo(
 			$('<li>').attr('draggable', true).
-				attr('onclick', 'sendRequestToBackground("changeTo",'+i+')').
-				html($(this)[0].title).appendTo('#playList ul')
+				click(function(){
+					sendRequestToBackground("changeTo", $(this).index())
+				}).
+				html($(this)[0].title).
+				data({
+					pos: i,
+					title: $(this)[0].title,
+					author: $(this)[0].author,
+					id: $(this)[0].id,
+				}).appendTo('#playList ul')
 		);
 	});
-	
+
 	// Marcamos la cancion que se esta reproduciendo
 	$('#playList li').removeClass('playing');
-	$('#playList li').eq(bg_page.playListSong).addClass('playing');	
+	$('#playList li').eq(bg_page.playListSong).addClass('playing');
 }
 
 function showSearchResults(searchResults)
@@ -211,3 +223,4 @@ function showSearchResults(searchResults)
 		localStorage.setItem('lastSearch', JSON.stringify(searchResults));
 	}
 }
+
