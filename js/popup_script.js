@@ -41,7 +41,12 @@ $(document).ready(function() {
 		if(m<10)
 			m="0"+m;
 		$("#time_counter").html(m + ':' + s);
+
+		var progress=(bg_page.audioElement.currentTime*100)/bg_page.audioElement.duration;
+		$("#inside_progressbar").css("width", progress+"%");
 	}
+
+
 
 	bg_page.audioElement.addEventListener("timeupdate", function() {
 		var s = parseInt(bg_page.audioElement.currentTime % 60);
@@ -53,25 +58,34 @@ $(document).ready(function() {
 		$("#time_counter").html(m + ':' + s);
 
 
+		var total = bg_page.audioElement.duration;
 		var progress=(bg_page.audioElement.currentTime*100)/bg_page.audioElement.duration;
-		$("#songProgressBar_inside").css("width", progress+"%");
+		$("#inside_progressbar").css("width", progress+"%");
+
+		$("#inside_loadbar").css("width", "100%");
+		var end = bg_page.audioElement.buffered.end(0);
+		if(total!=end) {
+			$("#inside_loadbar").css("width", (bg_page.audioElement.buffered.end(0)/total)*100+"%");
+		}
+
+
+
 
 
 	}, false);
 
 
-	var outside = document.getElementById('songProgressBar_outside');
-    var inside = document.getElementById('songProgressBar_inside');
+	var outside = document.getElementById('outside_progressbar');
+    var inside = document.getElementById('inside_progressbar');
 
-    outside.addEventListener('click', function(e) {
-      inside.style.width = e.offsetX + "px";
+	outside.addEventListener('click', function(e) {
+		inside.style.width = e.offsetX + "px";
 
-      // calculate the %
-      var pct = Math.floor((e.offsetX / outside.offsetWidth) * 100);
-      console.log(pct + " %");
-      bg_page.audioElement.currentTime = (bg_page.audioElement.duration*pct)/100;
+		// calculate the %
+		var pct = Math.floor((e.offsetX / outside.offsetWidth) * 100);
+		bg_page.audioElement.currentTime = (bg_page.audioElement.duration*pct)/100;
 
-    }, false);
+	}, false);
 
 
 	/* PLAY - PAUSE */
@@ -119,6 +133,31 @@ $(document).ready(function() {
 	// Ajustamos el volumen actual
 	volume.value = bg_page.audioElement.volume * 100;
 	$("#volumeInfo").html(volume.value);
+
+
+
+
+
+
+
+bg_page.audioElement.addEventListener('progress',function ()
+{
+
+		var v = bg_page.audioElement;
+			var r = v.buffered;
+			var total = v.duration;
+
+			var start = r.start(0);
+			var end = r.end(0);
+
+			$("#inside_loadbar").css("width", (end/total)*100+"%");
+		});
+
+		/*$(bg_page.audioElement).bind('progress', function()
+		{
+			loaded();
+		});*/
+
 
 
 

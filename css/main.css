@@ -155,7 +155,7 @@ img#loader{
 	font-size: 0.8em;
 }
 
-#songProgressBar_outside {
+#outside_progressbar {
 	margin-top: 1px;
 	border: 1px solid #1BBBF0;
 	padding: 1px;
@@ -164,10 +164,53 @@ img#loader{
 	border-radius: 4px;
 }
 
-#songProgressBar_inside {
+/*#songProgressBar_inside {
 	background-color: #1BBBF0;
 	height: 100%;
+	width: 25%;
+	float: left;
+	border-radius: 2px;
+	z-index: 100;
+}
+
+#songProgressBar_loaded {
+	background-color: #D6F5FF;
+	height: 100%;
+	width: 30%;
+	float: left;
+	border-radius: 2px;
+	z-index: 50;
+}*/
+
+
+#inside_progress_wrap {
+	position: absolute;
+	height: 8px;
+	width: 215px;
+	float: left;
+	border-radius: 2px;
+	z-index: 100;
+}
+
+#inside_progressbar {
+	background-color: #1BBBF0;
 	width: 0%;
+	height: 8px;border-radius: 2px;
+}
+
+#inside_load_wrap {
+	position: absolute;
+	height: 8px;
+	width: 215px;
+	float: left;
+	border-radius: 2px;
+	z-index: 50;
+}
+
+#inside_loadbar {
+	background-color: #BDEFFF;
+	width: 0%;
+	height: 8px;
 	border-radius: 2px;
 }
 
