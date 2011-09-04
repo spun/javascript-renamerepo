@@ -51,7 +51,27 @@ $(document).ready(function() {
 		if(m<10)
 			m="0"+m;
 		$("#time_counter").html(m + ':' + s);
+
+
+		var progress=(bg_page.audioElement.currentTime*100)/bg_page.audioElement.duration;
+		$("#songProgressBar_inside").css("width", progress+"%");
+
+
 	}, false);
+
+
+	var outside = document.getElementById('songProgressBar_outside');
+    var inside = document.getElementById('songProgressBar_inside');
+
+    outside.addEventListener('click', function(e) {
+      inside.style.width = e.offsetX + "px";
+
+      // calculate the %
+      var pct = Math.floor((e.offsetX / outside.offsetWidth) * 100);
+      console.log(pct + " %");
+      bg_page.audioElement.currentTime = (bg_page.audioElement.duration*pct)/100;
+
+    }, false);
 
 
 	/* PLAY - PAUSE */

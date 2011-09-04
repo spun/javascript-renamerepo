@@ -23,6 +23,9 @@ body {
 	float: left;
 	width: 250px;
 	height: 100%;
+	background-image: url('../img/search-bg.png');
+	background-repeat:no-repeat;
+	background-position:center center;
 }
 
 #searchForm {
@@ -113,7 +116,6 @@ img#loader{
 }
 
 #player_controls {
-	float: left;
 	overflow: hidden;
 }
 
@@ -151,6 +153,22 @@ img#loader{
 	float: left;
 	margin-top: 12px;
 	font-size: 0.8em;
+}
+
+#songProgressBar_outside {
+	margin-top: 1px;
+	border: 1px solid #1BBBF0;
+	padding: 1px;
+	height: 8px;
+	margin-top: 6px;
+	border-radius: 4px;
+}
+
+#songProgressBar_inside {
+	background-color: #1BBBF0;
+	height: 100%;
+	width: 0%;
+	border-radius: 2px;
 }
 
 #playList {
