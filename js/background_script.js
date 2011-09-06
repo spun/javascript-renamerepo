@@ -9,8 +9,20 @@ audioElement.load();
 audioElement.addEventListener('ended', function() {
 	playListSong++;
 	if(!(playListSong < playList.length))
+	{
 		playListSong = 0;
-	getUrl(playList[playListSong].id);
+		if(localStorage.getItem('repeatPlaylist') == 'on')
+		{
+			getUrl(playList[playListSong].id, changeSong);
+		}
+		else
+		{
+			getUrl(playList[playListSong].id, stopPlaylist);
+		}
+
+	}
+	else
+		getUrl(playList[playListSong].id, changeSong);
 });
 
 
@@ -26,19 +38,17 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		}
 		else if(request.action == "change") {
 			audioElement.pause();
-			console.log("Cambiando a: "+request.url);
-			getUrl(request.url);
+			getUrl(request.url, changeSong);
 
 			sendResponse({farewell: "goodbye"});
 		}
 		else if(request.action == "changeTo") {
 			audioElement.pause();
-			console.log("Cambiando a la cancion: "+request.url);
 
 			playListSong = request.url;
 			if(!(playListSong < playList.length))
 				playListSong = 0;
-			getUrl(playList[playListSong].id);
+			getUrl(playList[playListSong].id, changeSong);
 
 			sendResponse({farewell: "goodbye"});
 		}
@@ -46,7 +56,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		{
 			playList.push(request.url);
 			if(playList.length==1)
-				getUrl(request.url.id);
+				getUrl(request.url.id, changeSong);
 
 			sendResponse({farewell: "goodbye"});
 
@@ -54,14 +64,12 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		else if (request.action == "play")
 		{
 			audioElement.play();
-			console.log("played");
 			sendResponse({farewell: "goodbye"});
 
 		}
 		else if(request.action == "pause")
 		{
 			audioElement.pause();
-			console.log("paused");
 			sendResponse({farewell: "goodbye"});
 		}
 		else if(request.action == "stop")
@@ -98,6 +106,14 @@ function changeSong(enlace) {
 	return false;
 }
 
+function stopPlaylist(enlace) {
+	audioElement.pause();
+	audioElement.src = enlace;
+	audioElement.play();
+	audioElement.pause();
+	audioElement.currentTime=0;
+	return false;
+}
 
 
 

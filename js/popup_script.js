@@ -79,11 +79,15 @@ $(document).ready(function() {
     var inside = document.getElementById('inside_progressbar');
 
 	outside.addEventListener('click', function(e) {
-		inside.style.width = e.offsetX + "px";
 
-		// calculate the %
-		var pct = Math.floor((e.offsetX / outside.offsetWidth) * 100);
-		bg_page.audioElement.currentTime = (bg_page.audioElement.duration*pct)/100;
+		if(bg_page.audioElement.src)
+		{
+			inside.style.width = e.offsetX + "px";
+
+			// calculate the %
+			var pct = Math.floor((e.offsetX / outside.offsetWidth) * 100);
+			bg_page.audioElement.currentTime = (bg_page.audioElement.duration*pct)/100;
+		}
 
 	}, false);
 
@@ -135,30 +139,32 @@ $(document).ready(function() {
 	$("#volumeInfo").html(volume.value);
 
 
-
-
-
-
-
-bg_page.audioElement.addEventListener('progress',function ()
-{
-
+	bg_page.audioElement.addEventListener('progress',function ()
+	{
 		var v = bg_page.audioElement;
-			var r = v.buffered;
-			var total = v.duration;
+		var r = v.buffered;
+		var total = v.duration;
 
-			var start = r.start(0);
-			var end = r.end(0);
+		var start = r.start(0);
+		var end = r.end(0);
 
-			$("#inside_loadbar").css("width", (end/total)*100+"%");
-		});
+		$("#inside_loadbar").css("width", (end/total)*100+"%");
+	});
 
-		/*$(bg_page.audioElement).bind('progress', function()
+
+	$('#repeatPlaylist').click(function() {
+
+		if(localStorage.getItem('repeatPlaylist') == 'on')
 		{
-			loaded();
-		});*/
-
-
+			localStorage.setItem('repeatPlaylist', 'off');
+			$('#repeatPlaylist').removeClass('on');
+		}
+		else
+		{
+			localStorage.setItem('repeatPlaylist', 'on');
+			$('#repeatPlaylist').addClass('on');
+		}
+	});
 
 
 	recoverLastSession();
@@ -168,6 +174,18 @@ bg_page.audioElement.addEventListener('progress',function ()
 		$("#playPause").attr("src","img/pause_icon.png");
 		$('#playList li').removeClass('playing');
 		$('#playList li').eq(bg_page.playListSong).addClass('playing');
+
+	});
+
+	bg_page.audioElement.addEventListener('durationchange', function() {
+
+		var s = parseInt(bg_page.audioElement.duration % 60);
+		if(s<10)
+			s="0"+s;
+		var m = parseInt((bg_page.audioElement.duration / 60) % 60);
+		if(m<10)
+			m="0"+m;
+		$("#songTotalTime").html(m + ':' + s);
 	});
 
 
@@ -212,14 +230,14 @@ function preview_sendToPlay(title, author, id) {
 
 	// La mandamos al array de canciones en background
 	chrome.extension.sendRequest({action: "addToPlaylist", url: song}, function(response) {
-			console.log(response.farewell);
+			//console.log(response.farewell);
 	});
 }
 
 function sendRequestToBackground(act, data) {
 
 	chrome.extension.sendRequest({action: act, url: data}, function(response) {
-			console.log(response.farewell);
+			//console.log(response.farewell);
 	});
 }
 
@@ -257,6 +275,17 @@ function recoverLastSession() {
 	// Marcamos la cancion que se esta reproduciendo
 	$('#playList li').removeClass('playing');
 	$('#playList li').eq(bg_page.playListSong).addClass('playing');
+
+
+	//Marcamos el estado de repeticion de la lista de reproduccion
+	if(localStorage.getItem('repeatPlaylist') == 'on')
+	{
+		$('#repeatPlaylist').addClass('on');
+	}
+	else
+	{
+		$('#repeatPlaylist').removeClass('on');
+	}
 }
 
 function showSearchResults(searchResults)

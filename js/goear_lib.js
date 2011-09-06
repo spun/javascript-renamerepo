@@ -67,12 +67,12 @@ function goear_getResultsFromText(text) {
 		$("#searchImg").css("display", "block");
 	});
 }
-
+/*
 function getLocationFromUrl(url) {
 	var id = getId(url);
 	getUrl(id);
 }
-
+*/
 function getId(direccionActual)
 {
 	var id="";
@@ -90,20 +90,19 @@ function getId(direccionActual)
 }
 
 
-function getUrl(idSong)
+function getUrl(idSong, fback)
 {
-	console.log("getting");
 	$.ajax({
 		type: "GET",
 		url: "http://www.goear.com/tracker758.php?f="+idSong,
 		dataType: "html",
 		success: function(texto) {
-			extraerDatos(texto);
+			extraerDatos(texto, fback);
 		}
 	});
 }
 
-function extraerDatos(datos)
+function extraerDatos(datos, fback)
 {
 	var fragmentos=datos.split('path="');
 	var pathfrag=fragmentos[1].split('"');
@@ -116,7 +115,6 @@ function extraerDatos(datos)
 	fragmentos=datos.split('artist="');
 	pathfrag=fragmentos[1].split('"');
 	var artist=pathfrag[0];
-console.log(direcc);
 
-	changeSong(direcc);
+	fback(direcc);
 }

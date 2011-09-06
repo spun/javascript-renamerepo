@@ -15,7 +15,7 @@ try {
 	}
     // Send the information back to the extension
     chrome.extension.sendRequest({action: "putSelection", url: selectedText}, function(response) {
-		console.log(response.farewell);
+		//console.log(response.farewell);
 	});
 }
 catch (e) {

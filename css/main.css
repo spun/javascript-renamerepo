@@ -16,7 +16,7 @@
 body {
 	font-family: Arial, Helvetica, sans-serif;
 	min-width: 500px;
-	height: 300px;
+	height: 336px;
 }
 
 #searchBox {
@@ -58,7 +58,7 @@ img#loader{
 }
 
 #resultList {
-	height: 260px;
+	height: 296px;
 	overflow: auto;
 }
 
@@ -99,7 +99,7 @@ img#loader{
 
 #audio_player {
 	font-family: Digi;
-	margin: 15px;
+	margin: 15px 15px 0 15px;
 	overflow: hidden;
 }
 
@@ -164,25 +164,6 @@ img#loader{
 	border-radius: 4px;
 }
 
-/*#songProgressBar_inside {
-	background-color: #1BBBF0;
-	height: 100%;
-	width: 25%;
-	float: left;
-	border-radius: 2px;
-	z-index: 100;
-}
-
-#songProgressBar_loaded {
-	background-color: #D6F5FF;
-	height: 100%;
-	width: 30%;
-	float: left;
-	border-radius: 2px;
-	z-index: 50;
-}*/
-
-
 #inside_progress_wrap {
 	position: absolute;
 	height: 8px;
@@ -214,9 +195,6 @@ img#loader{
 	border-radius: 2px;
 }
 
-#playList {
-	margin-top: 15px;
-}
 
 #playList h3 {
 	text-align: center;
@@ -267,7 +245,7 @@ img#loader{
 	font-family: Verdana, sans-serif;
 	font-size: 1.3em;
 	text-align: center;
-	height: 284px;
+	height: 320px;
 	width: 234px;
 	background-color: white;
 	border: 2px dashed gray;
@@ -279,6 +257,30 @@ img#loader{
 	margin-top: 68px;
 	opacity: 0.4;
 }
+
+#repeatPlaylist {
+	float: right;
+	margin-right: 8px;
+	border-radius: 5px;
+	padding: 1px;
+	cursor: pointer;
+	opacity: 0.4;
+}
+
+#repeatPlaylist.on {
+	background-color: #6FCCEA;
+	opacity: 1.0;
+
+}
+
+#songTotalTime {
+	float: right;
+	font-size: 0.55em;
+	font-family: 'Varela Round', sans-serif;
+	color: #09F;
+	margin: 3px 5px 0 0;
+}
+
 
 ::-webkit-scrollbar {
     width: 5px;
