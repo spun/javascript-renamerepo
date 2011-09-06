@@ -7,8 +7,6 @@ function goear_extractFromTitle(lineIn, titleIn) {
 	var parts = lineIn.split('Escuchar ');
 	var author = parts[1].split(titleIn+" de ")[1];
 
-
-
 	var song = new Array();
 	song[0] = titleIn;
 	song[1] = author;
