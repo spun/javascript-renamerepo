@@ -41,7 +41,7 @@ $(document).ready(function() {
 		if(m<10)
 			m="0"+m;
 		$("#time_counter").html(m + ':' + s);
-		
+
 		var progress=(bg_page.audioElement.currentTime*100)/bg_page.audioElement.duration;
 		$("#inside_progressbar").css("width", progress+"%");
 	}
@@ -59,7 +59,7 @@ $(document).ready(function() {
 		if(bg_page.audioElement.currentTime>0)
 		{
 			var progress=(bg_page.audioElement.currentTime*100)/bg_page.audioElement.duration;
-			$("#inside_progressbar").css("width", progress+"%");			
+			$("#inside_progressbar").css("width", progress+"%");
 		}
 		else
 			$("#inside_progressbar").css("width", "0%");
@@ -69,7 +69,7 @@ $(document).ready(function() {
 		if(total!=end) {
 			$("#inside_loadbar").css("width", (bg_page.audioElement.buffered.end(0)/total)*100+"%");
 		}
-		
+
 	}, false);
 
 
@@ -172,8 +172,8 @@ $(document).ready(function() {
 		$("#playPause").attr("src","img/pause_icon.png");
 		$('#playList li').removeClass('playing');
 		$('#playList li').eq(bg_page.playListSong).addClass('playing');
-		
-		
+
+
 	});
 
 	bg_page.audioElement.addEventListener('pause', function() {
@@ -182,15 +182,20 @@ $(document).ready(function() {
 
 	bg_page.audioElement.addEventListener('durationchange', function() {
 
-		var s = parseInt(bg_page.audioElement.duration % 60);
-		if(s<10)
-			s="0"+s;
-		var m = parseInt((bg_page.audioElement.duration / 60) % 60);
-		if(m<10)
-			m="0"+m;
-		$("#songTotalTime").html(m + ':' + s);
+		var duration = bg_page.audioElement.duration;
+		if(duration && duration>0)
+		{
+			var s = parseInt(duration % 60);
+			if(s<10)
+				s="0"+s;
+			var m = parseInt((duration / 60) % 60);
+			if(m<10)
+				m="0"+m;
+			$("#songTotalTime").html(m + ':' + s);
+		}
+		else
+			$("#songTotalTime").html('00:00');
 	});
-
 
 
 });
@@ -288,6 +293,24 @@ function recoverLastSession() {
 	else
 	{
 		$('#repeatPlaylist').removeClass('on');
+	}
+
+
+	// Recuperamos la duracion de la cancion actual
+	if(bg_page.audioElement.src) {
+		var duration = bg_page.audioElement.duration;
+		if(duration && duration>0)
+		{
+			var s = parseInt(duration % 60);
+			if(s<10)
+				s="0"+s;
+			var m = parseInt((duration / 60) % 60);
+			if(m<10)
+				m="0"+m;
+			$("#songTotalTime").html(m + ':' + s);
+		}
+		else
+			$("#songTotalTime").html('00:00');
 	}
 }
 
